@@ -32,7 +32,7 @@ public class CropsStatus {
     @ApiOperation(value="재배중인 작물 정보", notes = "해당 회원의 재배 중인 작물 정보를 담은 객체를 넘겨받습니다..")
     public ResponseEntity<Message> cropsStatus(@RequestParam Long memberId) {
 
-        List<CropsStatusDto> cropsStatusDtos = orderService.getCropsStatus(memberId);
+        List<CropsStatusDto> cropsStatusDtoLists = orderService.getCropsStatus(memberId);
 
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
@@ -40,7 +40,7 @@ public class CropsStatus {
 
         message.setStatus(StatusEnum.OK);
         message.setMessage("success");
-        message.setData(cropsStatusDtos);
+        message.setData(cropsStatusDtoLists);
 
         return new ResponseEntity<>(message,headers, HttpStatus.OK);
 
