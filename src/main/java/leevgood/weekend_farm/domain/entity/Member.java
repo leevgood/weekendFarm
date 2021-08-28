@@ -1,11 +1,14 @@
 package leevgood.weekend_farm.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,26 +17,29 @@ import java.time.LocalDateTime;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id")
-    Long id;
+    private Long id;
 
-    String login_id;
-    String password;
+    private String loginId;
+    private String password;
 
-    String member_name;
-    String email;
-    String tel_number;
+    private String memberName;
+    private String email;
+    private String telNumber;
 
-    LocalDateTime create_date;
-    LocalDateTime update_date;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-    private Orders orders;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Order> orderList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-    private Cart cart;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Cart> cartList = new ArrayList<>();
 
-
-
+    @Builder
+    public Member(List<Order> orderList,List<Cart> cartList){
+        this.orderList = orderList;
+        this.cartList = cartList;
+    }
 }

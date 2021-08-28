@@ -6,30 +6,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Cart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "cart_id")
-    Long id;
+    private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    Member member;
+    private Member member;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Cart_item> cart_items;
+    private List<CartItem> cartItems = new ArrayList<>();
+    
+    private int totalPrice;
 
-
-    int total_price;
-
-    public void addPrice(int price){
-        total_price = total_price+price;
+    
+    // 도메인 로직
+    public void addCartItem(CartItem cartItem){
+        cartItem.setCart(this);
+        cartItems.add(cartItem);
+        this.totalPrice += cartItem.getPrice();
     }
 }

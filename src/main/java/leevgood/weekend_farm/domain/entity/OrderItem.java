@@ -1,12 +1,16 @@
 package leevgood.weekend_farm.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import leevgood.weekend_farm.domain.entity.product.Product;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-//@Entity
+@Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class OrderItem {
 
     @Id
@@ -14,15 +18,22 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
+    @Setter
+    private int price;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "orders_id")
+    @Setter
+    private Order order;
+
     @OneToOne
     @Setter
-    private CropsItem cropsItem;
-
-    private int price;
+    private Product product;
 
 
     @Builder
-    public OrderItem(int price) {
+    public OrderItem(Product product, int price) {
+        this.product = product;
         this.price = price;
     }
 }

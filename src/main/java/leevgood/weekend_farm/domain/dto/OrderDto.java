@@ -1,5 +1,6 @@
 package leevgood.weekend_farm.domain.dto;
 
+import leevgood.weekend_farm.domain.entity.CropsProgress;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,13 +8,13 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDto {
     private Long orderId;
     private Long memberId;
-    private int totalCount;
     private int totalPrice;
     private List<OrderItemDto> orderItemDtoList = new ArrayList<>();
 
@@ -27,5 +28,7 @@ public class OrderDto {
         private int price;
         private String type;
         private String description;
+        private CropsProgress cropsProgress;
     }
 }
+
