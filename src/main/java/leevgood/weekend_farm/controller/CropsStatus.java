@@ -39,6 +39,5 @@ public class CropsStatus {
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
         return new ResponseEntity<>(Message.okMessage(cropsStatusDtoLists),headers, HttpStatus.OK);
-
     }
 }

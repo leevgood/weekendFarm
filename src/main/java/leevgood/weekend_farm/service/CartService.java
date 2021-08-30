@@ -135,17 +135,19 @@ public class CartService {
             if(crops==null){
                 System.out.println("장바구니에 제품이 없습니다.");
                 isClear=false;
-                break;
+                continue;
             }
 
             //CropsProgress생성 후 orderitem에 추가,,,,
-            CropsProgress cropsProgress = new CropsProgress();
-            cropsProgress.setCropCondition("no problem");
-            cropsProgress.setCultivationStart(LocalDateTime.now().plusDays(7).toString());
-            cropsProgress.setExpectedDate(LocalDateTime.now().plusDays(7).plusDays(
-                    Long.parseLong(crops.getCultivationPeriod())).toString());
-            cropsProgress.setOrder(order);
-            order.setCropsProgress(cropsProgress);
+            if (crops != null) {
+                CropsProgress cropsProgress = new CropsProgress();
+                cropsProgress.setCropCondition("no problem");
+                cropsProgress.setCultivationStart(LocalDateTime.now().plusDays(7).toString());
+                cropsProgress.setExpectedDate(LocalDateTime.now().plusDays(7).plusDays(
+                        Long.parseLong(crops.getCultivationPeriod())).toString());
+                cropsProgress.setOrder(order);
+                order.setCropsProgress(cropsProgress);
+            }
         }
 
         //멤버에 오더 추가 후 저장
@@ -153,5 +155,12 @@ public class CartService {
         cartRepository.delete(cart);
         memberRepository.save(member);
         return order;
+    }
+
+    @Transactional
+    public void deleteCart(Long cartId){
+        Cart deleteCart = cartRepository.findById(cartId)
+                .orElseThrow(()->new EntityNotFoundException("cart not exist. id : " + cartId));
+        cartRepository.delete(deleteCart);
     }
 }

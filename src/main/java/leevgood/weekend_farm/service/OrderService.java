@@ -98,6 +98,25 @@ public class OrderService {
             order.addOrderItem(orderItem);
         }
 
+        for(OrderItem varOrderItem :order.getOrderItems()){
+
+            Product product = varOrderItem.getProduct();
+
+            Crops crops = product instanceof Crops ? ((Crops) product) : null;
+
+
+            //CropsProgress생성 후 orderitem에 추가,,,,
+            if(crops!=null){
+                CropsProgress cropsProgress = new CropsProgress();
+                cropsProgress.setCropCondition("no problem");
+                cropsProgress.setCultivationStart(LocalDateTime.now().plusDays(7).toString());
+                cropsProgress.setExpectedDate(LocalDateTime.now().plusDays(7).plusDays(
+                        Long.parseLong(crops.getCultivationPeriod())).toString());
+                cropsProgress.setOrder(order);
+                order.setCropsProgress(cropsProgress);
+            }
+        }
+
         order.setMember(member);
 
         return orderRepository.save(order).getId();
@@ -139,7 +158,7 @@ public class OrderService {
 
 
     public List<Order> getOrderList(){
-        // 시큐리티 이용해서 멤조회
+        // 시큐리티 이용해서 멤버조회
         Member member = new Member();
         return member.getOrderList();
     }
