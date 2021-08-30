@@ -23,6 +23,7 @@ public class Order {
     //TODO 1:N 으로 바꿔
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @Setter
     private Member member;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

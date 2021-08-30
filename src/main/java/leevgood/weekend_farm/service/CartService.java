@@ -119,8 +119,6 @@ public class CartService {
                 .totalPrice(cart.getTotalPrice())
                 .build();
 
-
-
         List<OrderItem> orderItems = order.getOrderItems();
         Crops crops = null;
         //주문확정 성공여부

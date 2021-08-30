@@ -36,15 +36,11 @@ public class MemberInfoEditPage {
     public ResponseEntity<Message> MemberInfoEdit(@RequestParam Long memberId) {
         Member member = memberService.findById(memberId);
 
-        Message message = new Message();
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
-        message.setStatus(StatusEnum.OK);
-        message.setMessage("success");
-        message.setData(modelMapper.map(member,MemberDto.class));
-
-        return new ResponseEntity<>(message,headers, HttpStatus.OK);
+        return new ResponseEntity<>(Message.okMessage(modelMapper.map(member,MemberDto.class)),headers, HttpStatus.OK);
     }
     
     //회원정보 수정 후 확인 버튼 클릭시 매핑되는 메서드... 수정된 회원정보 저장
@@ -55,15 +51,10 @@ public class MemberInfoEditPage {
                                       @RequestBody MemberDto memberDto
     ){
 
-        Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
-        message.setStatus(StatusEnum.OK);
-        message.setMessage("success");
-        message.setData(memberService.editMemberInfo(memberId,memberDto));
-
-        return new ResponseEntity<>(message,headers,HttpStatus.OK);
+        return new ResponseEntity<>(Message.okMessage(memberService.editMemberInfo(memberId,memberDto)),headers,HttpStatus.OK);
     }
 
 }

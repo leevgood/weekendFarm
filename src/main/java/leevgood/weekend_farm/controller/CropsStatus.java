@@ -28,21 +28,17 @@ public class CropsStatus {
     private final OrderService orderService;
 
     //현재 로그인 중인 회원의 재배 중인 작물들의 정보를 넘겨준다... Products에 저장된 데이터들이 해당 -> Crops들의 리스트
+    //완료
     @GetMapping("/cropsStatus")
     @ApiOperation(value="재배중인 작물 정보", notes = "해당 회원의 재배 중인 작물 정보를 담은 객체를 넘겨받습니다..")
     public ResponseEntity<Message> cropsStatus(@RequestParam Long memberId) {
 
         List<CropsStatusDto> cropsStatusDtoLists = orderService.getCropsStatus(memberId);
 
-        Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
-        message.setStatus(StatusEnum.OK);
-        message.setMessage("success");
-        message.setData(cropsStatusDtoLists);
-
-        return new ResponseEntity<>(message,headers, HttpStatus.OK);
+        return new ResponseEntity<>(Message.okMessage(cropsStatusDtoLists),headers, HttpStatus.OK);
 
     }
 }

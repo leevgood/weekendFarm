@@ -98,8 +98,8 @@ public class OrderService {
             order.addOrderItem(orderItem);
         }
 
-        member.getOrderList().add(order);
-        memberRepository.save(member);
+        order.setMember(member);
+
         return orderRepository.save(order).getId();
     }
 
@@ -135,6 +135,13 @@ public class OrderService {
         /*        order.setOrderItem(orderItem);
          */
         orderRepository.save(order);
+    }
+
+
+    public List<Order> getOrderList(){
+        // 시큐리티 이용해서 멤조회
+        Member member = new Member();
+        return member.getOrderList();
     }
 
     public List<CropsStatusDto> getCropsStatus(Long memberId) {
