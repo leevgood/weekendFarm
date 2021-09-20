@@ -28,9 +28,10 @@ public class OrderController {
     private final CartService cartService;
     private final OrderService orderService;
 
+
     // 주문하기
     @PostMapping("/v1/order/directOrder")
-    @ApiOperation(value="구매확정 기능", notes = "구매확정 버튼을 누르면 해당 상품이 구매확정되고 그 주문의 아이디가 반환됩니다.")
+    @ApiOperation(value="구매확정 기능", notes = "장바구니 담기 과정 없이 구매확정 버튼을 누르면 해당 상품이 구매확정되고 그 주문의 아이디가 반환됩니다.")
     public ResponseEntity<Message> orderDirect(@RequestBody ForOrderItemDto forOrderItemDto
     ){
         Long orderItemId = orderService.makeOrderItem(forOrderItemDto);
@@ -40,9 +41,6 @@ public class OrderController {
 
         return new ResponseEntity(Message.okMessage(orderItemId), headers, HttpStatus.OK);
     }
-
-    // 주문 목록 조회
-    // 주문 상회 조회
 
     //특정 카트의 주문확정 버튼을 누르면 해당 카트의 아이템들이 구매확정된다.
     @PostMapping("/v1/{cartId}/order")
@@ -57,6 +55,9 @@ public class OrderController {
         return new ResponseEntity<>(Message.okMessage(order),headers, HttpStatus.OK);
     }
 
+    // 주문 목록 조회
+
+    // 주문 상세 조회
     //현재 로그인 중인 회원의 재배 중인 작물들의 정보를 넘겨준다... Products에 저장된 데이터들이 해당 -> Crops들의 리스트
     @GetMapping("/v1/order/cropsStatus")
     @ApiOperation(value="재배중인 작물 정보", notes = "해당 회원의 재배 중인 작물 정보를 담은 객체를 넘겨받습니다..")
@@ -72,15 +73,4 @@ public class OrderController {
     }
 
 
-    //작물과 옵션 선택 후 장바구니 담기를 하지않고 바로주문을 선택 할 시 작동
-    @GetMapping("/directOrder")
-    @ApiOperation(value="구매확정 기능", notes = "구매확정 버튼을 누르면 장바구니에 저장된 것들을 포함하여 모두 구매확정됩니다.")
-    public void orderDirect(@RequestParam OrderDto orderDto) {
-
-    }
-
-    @GetMapping("/order/{id}")
-    public void getOrderInfo(@PathVariable Long id){
-
-    }
 }
