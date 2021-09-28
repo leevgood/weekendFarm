@@ -24,33 +24,26 @@ public class SignUpController {
     private final MemberService memberService;
 
     //회원가입 버튼 클릭시 발생 적절한 정보값인지 확인위해 입력정보 넘겨준다.
+    //이동완료
     @GetMapping("/signupBefore")
     @ApiOperation(value="회원가입 시 입력한 회원정보", notes = "회원가입을 위해 입력한 정보들을 담은 객체를 넘겨받습니다.")
     public ResponseEntity<Message> signupMemberInfo(@RequestBody MemberDto memberDto){
-        Message message = new Message();
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
-        message.setData(memberDto);
-        message.setMessage("success");
-        message.setStatus(StatusEnum.OK);
-
-        return new ResponseEntity<>(message,headers, HttpStatus.OK);
+        return new ResponseEntity<>(Message.okMessage(memberDto),headers, HttpStatus.OK);
     }
 
     //입력정보 확인 후 적절한 입력정보이면 Member를 등록한다.
+    //이동완료
     @PostMapping("/signupAfter")
     @ApiOperation(value="회원가입 시 입력한 회원정보", notes = "회원가입을 위해 입력한 정보들을 담은 객체를 넘겨받습니다.")
     public ResponseEntity<Message> signupMemberSave(@RequestBody MemberDto memberDto){
-        Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
-        message.setData(memberDto);
-        message.setMessage("success");
-        message.setStatus(StatusEnum.OK);
-
-        return new ResponseEntity<>(message,headers, HttpStatus.OK);
+        return new ResponseEntity<>(Message.okMessage(memberDto),headers, HttpStatus.OK);
     }
 
 }

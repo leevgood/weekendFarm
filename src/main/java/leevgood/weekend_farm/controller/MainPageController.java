@@ -26,6 +26,7 @@ public class MainPageController {
 
 
     //메인 페이지에 출력될 작물들 리스트
+    //완료
     @GetMapping("/")
     @ApiOperation(value="모든 작물 리스트", notes = "모든 작물들의 정보를 담은 객체의 리스트를 넘겨받습니다.")
     public ResponseEntity<Message> cropsList(){
@@ -33,23 +34,11 @@ public class MainPageController {
         CropsListDto cropsListDto = new CropsListDto();
         cropsListDto.setCropsList(cropsService.getAllCrops());
 
-        Message message = new Message();
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
-        //제대로 조회에 성공시, 실패시 다른 메시지와 status 넣어준다.
-        if(cropsListDto.getCropsList().isEmpty()){
-            message.setStatus(StatusEnum.BAD_REQUEST);
-            message.setMessage("failed");
-        }
-        else{
-            message.setStatus(StatusEnum.OK);
-            message.setMessage("success");
-            message.setData(cropsListDto);
-        }
-
-
-        return new ResponseEntity<>(message,headers, HttpStatus.OK);
+        return new ResponseEntity<>(Message.okMessage(cropsListDto),headers, HttpStatus.OK);
     }
 
 

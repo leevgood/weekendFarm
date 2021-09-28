@@ -21,17 +21,13 @@ import java.nio.charset.Charset;
 public class LoginPageController {
 
     //폼 입력 후 로그인 버튼 클릭 시 발생
+    //완료
     @GetMapping("/memberLogin")
     @ApiOperation(value="로그인 정보", notes = "입력한 아이디, 패스워드를 넘겨받습니다.")
     public ResponseEntity<Message> memberLogin(@RequestParam MemberLoginDto memberLoginDto){
-        Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
 
-        message.setStatus(StatusEnum.OK);
-        message.setMessage("success");
-        message.setData(memberLoginDto);
-
-        return new ResponseEntity<>(message,headers, HttpStatus.OK);
+        return new ResponseEntity<>(Message.okMessage(memberLoginDto),headers, HttpStatus.OK);
     }
 }
